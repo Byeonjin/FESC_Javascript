@@ -11,6 +11,35 @@
 
 
 
+function first(){
+  let x = 10;
+  function second (){
+    let y = 30;
+    return x + y;
+  }
+  return second
+}
+
+
+
+const value = first();
+
+
+// 전역의 오염을 막기 위해 
+
+function number(){
+  let count = 0;
+
+  return ()=> ++count
+}
+
+const counter = number();
+
+
+
+// console.log(count);
+
+
 // 모든 함수에는 실행 컨텍스트가 있습니다. 실행 컨텍스트는 해당 함수 내의 변수와 
 // 해당 부모 환경에 대한 참조를 의미하는 환경으로 구성됩니다. 상위 환경에 대한 참조는 
 // 내부 함수가 작성된 범위 외부 또는 내부에서 호출되는지 여부에 관계없이 상위 범위의 

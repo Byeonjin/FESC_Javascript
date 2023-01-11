@@ -11,9 +11,23 @@
 // -----------------------------------------------------------------------
 
 // pow 함수를 재귀 호출 방식으로 변경
-// - 재귀 기반(base)
-// - 재귀 단계(step)
-// - 재귀 깊이(depth)
+// - 재귀 기반(base) : 재귀를 언제 멈출 것인가? 
+// - 재귀 단계(step) : 재귀 시, 반복적으로 처리할 일 (공통적인 처리)
+// - 재귀 깊이(depth) : 재귀를 최대 몇 번 수행할 것인가?
+
+
+function pow(x,n){
+  
+  if(n == 1) { 
+    return x;
+  }
+  else{
+    return x * pow(x , n - 1)
+  }
+}
+
+pow(2,4)
+
 
 
 // factorial 함수를 재귀 호출 방식으로 작성
@@ -22,11 +36,22 @@
 // - 기호(!)를 사용하여 n!으로 표기
 // - 예시) 4! = 4 * 3 * 2 * 1
 
+function factorial(n){
+  if(n === 1){
+    return n;
+  }else{
+    return n * factorial(n - 1);
+  }
+}
+
+
 
 // fibonacci 함수를 재귀 호출 방식으로 작성
 // 참고: https://bit.ly/fibonacci-util
 // - 피보나치 수 = 처음과 두번째 항은 1이고, 그 뒤 모든 항은 바로 앞 두 항을 더한 합인 수열
 // 예시) 1, 1, 2, 3, 5, 8, ...
+
+
 
 
 // -----------------------------------------------------------------------
@@ -49,6 +74,13 @@
 // - 재귀 호출 알고리즘은 재귀 깊이만큼 메모리가 필요
 // - 반복문 기반 알고리즘은 메모리가 절약 됨
 
+function fibonacci(n){
+  if(n <= 0) return 0;
+  if(n <= 2) return 1;
+  return fibonacci(n-1) + fibonacci(n-2);
+}
+
+
 // 요약
 // - 메모리 최적화 관점에서는 반복문 기반 알고리즘에 비해 메모리 사용도가 높은 점이 약점
 // - 작성하는 모든 곳에서 메모리 최적화가 필요한 것은 아니므로 가독성을 높이는 코드가 필요
@@ -60,6 +92,22 @@
 // 메모이제이션을 사용한 fibonacci 함수를 작성해보세요.
 // 참고: https://bit.ly/memoiz
 // - 동일 계산 반복 시, 이전 계산 값을 메모리에 저장하여 실행 속도를 높이는 방법
+
+
+const memoFibo = (n)=>{
+  if(n <= 0) return 0;
+  if(n <= 2) return 1;
+  if(memoFibo.cache[n]){
+    return memoFibo.cache[n];
+  }else{
+    return memoFibo.cache[n] = memoFibo(n-1) + memoFibo(n-2);
+  }
+}
+
+memoFibo.cache = {
+  //  key : value
+}
+
 
 
 // 회사 부서 팀원들의 월급 총 합을 구해보세요.
@@ -106,3 +154,24 @@ const SocialPartiners = {
     },
   },
 };
+
+
+
+
+
+function sumSalaries(department) {
+  if (Array.isArray(department)) { // 첫 번째 경우
+    return department.reduce((prev, current) => prev + current.salary, 0); // 배열의 요소를 합함
+  } else { // 두 번째 경우
+    let sum = 0;
+    for (let subdep of Object.values(department)) {
+      sum += sumSalaries(subdep); // 재귀 호출로 각 하위 부서 임직원의 급여 총합을 구함
+    }
+    return sum;
+  }
+}
+
+
+
+
+

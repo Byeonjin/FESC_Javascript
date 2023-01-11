@@ -1,27 +1,33 @@
+/* ---------------------------------------------------------------------- */
+/* Object Methods and This                                                */
+/* ---------------------------------------------------------------------- */
+
+
+
+
 
 let ladder = {
   step: 0,
   up() {
     this.step++;
-    return this;
+    return this
   },
   down() {
     this.step--;
-    return this;
+    return this
   },
-  showStep: function() { // 사다리에서 몇 번째 단에 올라와 있는지 보여줌
+  showStep() { 
     console.log( this.step );
-    return this;
+    return this
   }
 };
 
 
-//ladder.up().up().down().showStep(); // 1
 
 
-/* ---------------------------------------------------------------------- */
-/* Object Methods and This                                                */
-/* ---------------------------------------------------------------------- */
+
+
+
 
 // 매장 주문의 결제 금액 총 합을 구하는 메서드를 구현해봅니다.
 const shopOrder = {
@@ -32,12 +38,17 @@ const shopOrder = {
     { name: '치즈 돈까스', price: 10000, count: 1 },
   ],
   totalPrice() {
-    return this.menu.reduce((acc, item) => acc + (item.price * item.count), 0)
-  },
+    // let self = shopOrder;
+    // console.log(this.menu[0].price * this.menu[0].count);
+      // acc += 
+    return this.menu.reduce((acc,cur)=>acc + cur.price * cur.count,0)
+    
+  }
 };
 
-console.log( shopOrder.totalPrice());
 
+
+console.log( shopOrder.totalPrice() );
 
 // 메서드와 this
 // ※ this 참조는 런타임(실행) 중에 결정됩니다. 즉, 컨텍스트에 따라 달라집니다.
@@ -62,7 +73,43 @@ const navigationMenu = {
   getItem(index) {
     return this.items[index];
   },
-  addItem: (newItem) => {
+  addItem (newItem) {
     this.items.push(newItem);
   },
 };
+
+
+
+console.log( navigationMenu.getItem(0) );
+
+
+navigationMenu.addItem({ 
+  id: 'link-y', 
+  text: 'Yahoo',
+  link: 'https://yahoo.co.kr' 
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

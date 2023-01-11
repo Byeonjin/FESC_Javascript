@@ -2,6 +2,9 @@
 /* For Of Loop                                                            */
 /* ---------------------------------------------------------------------- */
 
+
+
+
 // String, Array, Array-like  =  iterable
 
 const arrayLike = {
@@ -116,8 +119,31 @@ const randomUser = {
 // - for ~ of 문
 // - 성능 비교 진단
 
-
-
+/* 
+for(let value in randomUser){
+  if(Object.prototype.hasOwnProperty.call(randomUser,value)){
+    const L1 = randomUser[value];
+    console.log('Level 1 : ' + value);
+    if(typeof L1 === 'object'){
+      for(let value in L1){
+        if(Object.prototype.hasOwnProperty.call(L1,value)){
+          const L2 = L1[value];
+          console.log('\tLevel 2 : ' + value);
+          if(typeof L2 === 'object'){
+            for(let value in L2){
+              if(Object.prototype.hasOwnProperty.call(L2,value)){
+                const L3 = L2[value];
+                console.log('\t\tLevel 3 : ' + value);
+              }
+            }
+          }
+        } 
+      } 
+    }
+  }
+}
+}
+ */
 
 /* 
 
@@ -128,11 +154,36 @@ Object.entries
  */
 
 
+// console.log(Object.values(randomUser));
+/* 
+
+for(let key of Object.keys(randomUser)){
+  console.log(key);
+}
+
+for(let values of Object.values(randomUser)){
+  console.log(values);
+}
+
+ */
 
 
+for(let keyValue of Object.entries(randomUser)){
+  let key = keyValue[0]
+  let value = keyValue[1]
 
+  console.log('L1 : ' ,key);
 
+  if(typeof value === 'object'){
+    for(let keyValue of Object.entries(value)){
+      let key = keyValue[0]
+      let value = keyValue[1]
 
+      console.log('\t L2 : ' ,key);
+    }
+  }
+  
+}
 
 
 
