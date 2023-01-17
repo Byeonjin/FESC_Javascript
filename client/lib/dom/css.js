@@ -1,97 +1,88 @@
 
-function addClass(ele, className){
-  if(typeof(ele) !== "string" ){
-    typeError('첫 인자로 string type이 주어져야합니다.');
-  }
-  else if(typeof(className) !== "string"){
-    typeError('두번째 인자로 string type이 주어져야합니다.');
-  }
+import { getNode } from "./getNode.js";
+import { typeError, syntaxError } from "../error/index.js";
 
-  ele = getNode(ele);
+
+export function addClass(node,className){
   
-  ele.classList.add(className);
+  if(typeof node === 'string') node = getNode(node);
+
+  if(typeof className !== 'string'){
+    typeError('addClass 함수의 두 번째 인자는 문자 타입 이어야 합니다.');
+  }
+  
+  node.classList.add(className)
+
 }
 
-function removeClass(ele, className){
-  if(typeof(ele) !== "string" ){
-    typeError('첫 인자로 string type이 주어져야합니다.');
-  }
-  else{
-    ele = getNode(ele);
-  }
+
+
+// 변경하기 : 대상의 클래스를 지운다.
+export function removeClass(node,className){
+  if(typeof node === 'string') node = getNode(node);
 
   if(!className){
-    ele.className = '';
+    node.className = ''
     return;
   }
-  else if(typeof(className) !== "string"){
-    typeError('두번째 인자로 string type이 주어져야합니다.');
+  
+  if(typeof className !== 'string'){
+    typeError('removeClass 함수의 두 번째 인자는 문자 타입 이어야 합니다.');
   }
 
-  if(!ele.classList.contains(className)){
-    throw new Error('해당 class가 존재하지 않습니다.');
-  }
-
-  ele.classList.remove(className);
+  node.classList.remove(className)  
 }
 
-function toggleClass(ele, className){
-  if(typeof(ele) !== "string" ){
-    typeError('첫 인자로 string type이 주어져야합니다.');
-  }
-  else{
-    ele = getNode(ele);
-  }
-  if(typeof(className) !== "string"){
-    typeError('두번째 인자로 string type이 주어져야합니다.');
+
+export function toggleClass(node,className){
+  if(typeof node === 'string') node = getNode(node);
+  if(typeof className !== 'string'){
+    typeError('toggleClass 함수의 두 번째 인자는 문자 타입 이어야 합니다.');
   }
 
-  ele.classList.toggle(className)
+  node.classList.toggle(className)
 }
 
-function getCss(ele, style){
-  let elementComputedStyle;
-  if(typeof(ele) !== 'string'){
-    typeError('첫 인자가 string타입이 아닙니다.');
-  }
-  else{
-    ele = getNode(ele);
-    elementComputedStyle = getComputedStyle(ele);
+
+
+
+function getCss(node,prop){
+  if(typeof node === 'string'){
+    node = getNode(node);
   }
 
-  if(typeof(style) !== 'string'){
-    typeError('두번째 인자가 string타입이 아닙니다.');
+  if(!(prop in document.body.style)){
+    syntaxError('getCSS 함수의 두 번째 인자인 prop은 유효한 css 속성이 아닙니다.')
   }
-
-  if(!(style in elementComputedStyle)){
-    throw new Error('해당 style이 존재하지 않습니다.')
-  }
-
-  return elementComputedStyle[style];
+  return getComputedStyle(node)[prop]
 }
 
-function setCss(ele, sty, value){
-  let elementComputedStyle;
-  if(typeof(ele) !== 'string'){
-    typeError('첫 인자가 string타입이 아닙니다.');
-  }
-  else{
-    ele = getNode(ele);
-    elementComputedStyle = getComputedStyle(ele);
-  }
 
-  if(typeof(sty) !== 'string'){
-    typeError('두번째 인자가 string타입이 아닙니다.');
-  }
-  if(typeof(value) !== 'string'){
-    typeError('세번째 인자가 string타입이 아닙니다.');
-  }
+// jQuery
 
-  if(!(sty in elementComputedStyle)){
-    throw new Error('해당 style이 존재하지 않습니다.')
+// 대상에게 원하는 css 속성을 추가 = set
+function setCss(node,prop,value){
+  if(typeof node === 'string'){
+    node = getNode(node);
   }
+  if(!(prop in document.body.style)){
+    syntaxError('setCSS 함수의 두 번째 인자인 prop은 유효한 css 속성이 아닙니다.')
+  }
+  if(!value){
+    syntaxError('setCSS 함수의 세 번째 인자는 필수값 입니다.')
+  }
+  
+  // if(value.replace(/\s+/g,'') === ''){
 
-  ele.style[sty] = value;
+  // }
+  
+  node.style[prop] = value;
+
 }
 
-const css = (ele, sty, value) => value !== undefined ? setCss(ele, sty, value) : getCss(ele,sty);
+
+export const css = (node,prop,value) => { 
+  return !value ? getCss(node,prop) : setCss(node,prop,value) 
+}
+
+  
