@@ -9,7 +9,6 @@ export function isNumericString(data){
 function typeOf(data){
   return Object.prototype.toString.call(data).slice(8,-1).toLowerCase();
 }
-console.log(Object.prototype.toString.call(undefined));
 
 export const isObject = data => typeOf(data) === 'object'
 export const isString = data => typeOf(data) === 'string'
